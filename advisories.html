@@ -1,103 +1,130 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Embassy Advisories</title>
-
-<style>
-
-body{
-font-family:Arial;
-background:#f4f6f9;
-margin:40px;
-}
-
-h1{
-color:#003366;
-}
-
-.advisory{
-background:white;
-border-left:5px solid #003366;
-padding:20px;
-margin-bottom:15px;
-border-radius:6px;
-}
-
-.high{
-border-left:5px solid #c62828;
-}
-
-.date{
-color:#666;
-font-size:14px;
-}
-
-.category{
-font-size:12px;
-background:#eee;
-padding:3px 8px;
-border-radius:4px;
-margin-left:8px;
-}
-
-a{
-color:#003366;
-font-weight:bold;
-}
-
-</style>
+  <title>Embassy Advisories</title>
+  <style>
+    body{
+      font-family:Arial,sans-serif;
+      background:#f4f6f9;
+      margin:40px;
+    }
+    h1{
+      color:#003366;
+    }
+    .advisory{
+      background:white;
+      border-left:5px solid #003366;
+      padding:20px;
+      margin-bottom:15px;
+      border-radius:6px;
+      box-shadow:0 2px 6px rgba(0,0,0,0.06);
+    }
+    .high{
+      border-left:5px solid #c62828;
+    }
+    .date{
+      color:#666;
+      font-size:14px;
+      margin-bottom:8px;
+    }
+    .category{
+      font-size:12px;
+      background:#eee;
+      padding:3px 8px;
+      border-radius:4px;
+      margin-left:8px;
+    }
+    a{
+      color:#003366;
+      font-weight:bold;
+      text-decoration:none;
+    }
+    a:hover{
+      text-decoration:underline;
+    }
+    .empty{
+      background:white;
+      padding:20px;
+      border-radius:6px;
+      color:#666;
+    }
+  </style>
 </head>
-
 <body>
 
-<h1>Embassy Advisories</h1>
+  <h1>Embassy Advisories</h1>
+  <div id="advisories" class="empty">Loading advisories...</div>
 
-<div id="advisories"></div>
+  <script>
+    const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR_yTFobRLN8wW7BZhVMa6HKYCHg-AqXpYrw02Rux0BU4T6ZEAmN63Ntpd9MaGnq43qZvM8Km1LNaJH/pub?output=csv";
 
-<script>
+    function parseCSVLine(line) {
+      const result = [];
+      let current = "";
+      let insideQuotes = false;
 
-const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR_yTFobRLN8wW7BZhVMa6HKYCHg-AqXpYrw02Rux0BU4T6ZEAmN63Ntpd9MaGnq43qZvM8Km1LNaJH/pub?output=csv";
+      for (let i = 0; i < line.length; i++) {
+        const char = line[i];
 
-fetch(sheetURL)
-.then(response => response.text())
-.then(data => {
+        if (char === '"') {
+          if (insideQuotes && line[i + 1] === '"') {
+            current += '"';
+            i++;
+          } else {
+            insideQuotes = !insideQuotes;
+          }
+        } else if (char === "," && !insideQuotes) {
+          result.push(current);
+          current = "";
+        } else {
+          current += char;
+        }
+      }
 
-const rows = data.split("\n").slice(1);
+      result.push(current);
+      return result.map(value => value.trim());
+    }
 
-let html="";
+    fetch(sheetURL)
+      .then(response => response.text())
+      .then(data => {
+        const rows = data.trim().split(/\r?\n/).slice(1);
+        let html = "";
 
-rows.forEach(row=>{
+        rows.forEach(row => {
+          if (!row.trim()) return;
 
-const cols=row.split(",");
+          const cols = parseCSVLine(row);
 
-const date=cols[1];
-const title=cols[2];
-const category=cols[3];
-const summary=cols[4];
-const link=cols[5];
-const priority=cols[6];
-const status=cols[7];
+          const date = cols[1] || "";
+          const title = cols[2] || "";
+          const category = cols[3] || "";
+          const summary = cols[4] || "";
+          const link = cols[5] || "#";
+          const priority = (cols[6] || "").trim();
+          const status = (cols[7] || "").trim();
 
-if(status==="Published"){
+          if (status.toLowerCase() === "published") {
+            html += `
+              <div class="advisory ${priority.toLowerCase() === 'high' ? 'high' : ''}">
+                <div class="date">${date} <span class="category">${category}</span></div>
+                <h3>${title}</h3>
+                <p>${summary}</p>
+                <a href="${link}" target="_blank" rel="noopener noreferrer">Read full advisory</a>
+              </div>
+            `;
+          }
+        });
 
-html+=`
-<div class="advisory ${priority==='High'?'high':''}">
-<div class="date">${date} <span class="category">${category}</span></div>
-<h3>${title}</h3>
-<p>${summary}</p>
-<a href="${link}" target="_blank">Read full advisory</a>
-</div>
-`;
-
-}
-
-});
-
-document.getElementById("advisories").innerHTML=html;
-
-});
-
-</script>
+        document.getElementById("advisories").innerHTML =
+          html || '<div class="empty">No published advisories found.</div>';
+      })
+      .catch(error => {
+        console.error("Error loading advisories:", error);
+        document.getElementById("advisories").innerHTML =
+          '<div class="empty">Unable to load advisories. Please check the sheet link and publishing settings.</div>';
+      });
+  </script>
 
 </body>
 </html>
