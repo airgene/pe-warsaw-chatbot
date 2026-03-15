@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Embassy Advisories</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f4f6f9;
+margin:40px;
+}
+
+h1{
+color:#003366;
+}
+
+.advisory{
+background:white;
+border-left:5px solid #003366;
+padding:20px;
+margin-bottom:15px;
+border-radius:6px;
+}
+
+.high{
+border-left:5px solid #c62828;
+}
+
+.date{
+color:#666;
+font-size:14px;
+}
+
+.category{
+font-size:12px;
+background:#eee;
+padding:3px 8px;
+border-radius:4px;
+margin-left:8px;
+}
+
+a{
+color:#003366;
+font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>Embassy Advisories</h1>
+
+<div id="advisories"></div>
+
+<script>
+
+const sheetURL = "PASTE_GOOGLE_SHEET_CSV_LINK_HERE";
+
+fetch(sheetURL)
+.then(response => response.text())
+.then(data => {
+
+const rows = data.split("\n").slice(1);
+
+let html="";
+
+rows.forEach(row=>{
+
+const cols=row.split(",");
+
+const date=cols[1];
+const title=cols[2];
+const category=cols[3];
+const summary=cols[4];
+const link=cols[5];
+const priority=cols[6];
+const status=cols[7];
+
+if(status==="Published"){
+
+html+=`
+<div class="advisory ${priority==='High'?'high':''}">
+<div class="date">${date} <span class="category">${category}</span></div>
+<h3>${title}</h3>
+<p>${summary}</p>
+<a href="${link}" target="_blank">Read full advisory</a>
+</div>
+`;
+
+}
+
+});
+
+document.getElementById("advisories").innerHTML=html;
+
+});
+
+</script>
+
+</body>
+</html>
