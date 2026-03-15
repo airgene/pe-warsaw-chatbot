@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Outreach Activities</title>
+  <style>
+    :root {
+      --blue: #0038a8;
+      --red: #ce1126;
+      --gold: #fcd116;
+      --ink: #17304f;
+      --muted: #5f6f86;
+      --line: #dbe4f0;
+      --bg: #f5f8fc;
+      --card: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+    }
+
+    .page {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px 20px 40px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 20px 22px;
+      box-shadow: 0 14px 36px rgba(23, 48, 79, 0.08);
+      margin-bottom: 20px;
+    }
+
+    .flag {
+      height: 8px;
+      width: 220px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--blue) 0 45%, white 45% 55%, var(--red) 55% 100%);
+      border: 1px solid #cfd9ea;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--blue);
+      font-size: 30px;
+      line-height: 1.1;
+    }
+
+    .subtitle {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+      max-width: 760px;
+    }
+
+    .toolbar {
+      margin-top: 16px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .search {
+      flex: 1;
+      min-width: 220px;
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font: inherit;
+      color: var(--ink);
+      outline: none;
+    }
+
+    .search:focus {
+      border-color: #90b7ff;
+      box-shadow: 0 0 0 4px rgba(0, 56, 168, 0.08);
+    }
+
+    .count {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 28px rgba(23, 48, 79, 0.08);
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+
+    .thumb {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background: #eaf1fb;
+      object-fit: cover;
+      display: block;
+    }
+
+    .thumb-fallback {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background: linear-gradient(135deg, #edf4ff, #f8fbff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--blue);
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      font-size: 14px;
+    }
+
+    .content {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .pill {
+      background: #f4f7fb;
+      border: 1px solid var(--line);
+      padding: 5px 8px;
+      border-radius: 999px;
+    }
+
+    .title {
+      margin: 0;
+      font-size: 19px;
+      line-height: 1.25;
+      color: var(--ink);
+    }
+
+    .desc {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+      flex: 1;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      border-radius: 12px;
+      padding: 11px 14px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid var(--line);
+      background: white;
+      color: var(--ink);
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: white;
+      border-color: var(--blue);
+    }
+
+    .empty, .loading, .error {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 22px;
+      color: var(--muted);
+      box-shadow: 0 10px 28px rgba(23, 48, 79, 0.06);
+    }
+
+    @media (max-width: 980px) {
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        padding: 18px 14px 28px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="hero">
+      <div class="flag"></div>
+      <h1>Outreach Activities</h1>
+      <div class="subtitle">
+        Outreach activities, consular missions, and community events of the Philippine Embassy in Warsaw.
+      </div>
+      <div class="toolbar">
+        <input
+          id="searchInput"
+          class="search"
+          type="text"
+          placeholder="Search by title, location, or description..."
+        />
+        <div id="count" class="count">Loading...</div>
+      </div>
+    </section>
+
+    <div id="state" class="loading">Loading outreach activities...</div>
+    <section id="gallery" class="grid" hidden></section>
+  </div>
+
+  <script>
+    const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR_yTFobRLN8wW7BZhVMa6HKYCHg-AqXpYrw02Rux0BU4T6ZEAmN63Ntpd9MaGnq43qZvM8Km1LNaJH/pub?output=csv";
+
+    const stateEl = document.getElementById("state");
+    const galleryEl = document.getElementById("gallery");
+    const searchInputEl = document.getElementById("searchInput");
+    const countEl = document.getElementById("count");
+
+    let allItems = [];
+
+    function parseCSVLine(line) {
+      const result = [];
+      let current = "";
+      let inQuotes = false;
+
+      for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+
+        if (ch === '"') {
+          if (inQuotes && line[i + 1] === '"') {
+            current += '"';
+            i++;
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (ch === "," && !inQuotes) {
+          result.push(current);
+          current = "";
+        } else {
+          current += ch;
+        }
+      }
+
+      result.push(current);
+      return result.map(v => v.trim());
+    }
+
+    function escapeHtml(str) {
+      return String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function formatDate(value) {
+      if (!value) return "";
+      const d = new Date(value);
+      if (Number.isNaN(d.getTime())) return value;
+      return d.toLocaleDateString("en-GB", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+    }
+
+    function normalizeDriveFolderLink(url) {
+      return String(url || "").trim();
+    }
+
+    function makePlaceholder(title) {
+      const safe = escapeHtml(title || "Outreach Activity");
+      return `<div class="thumb-fallback">${safe}</div>`;
+    }
+
+    function render(items) {
+      if (!items.length) {
+        galleryEl.hidden = true;
+        stateEl.hidden = false;
+        stateEl.className = "empty";
+        stateEl.innerHTML = "No published outreach activities found.";
+        countEl.textContent = "0 activities";
+        return;
+      }
+
+      stateEl.hidden = true;
+      galleryEl.hidden = false;
+      countEl.textContent = `${items.length} activit${items.length === 1 ? "y" : "ies"}`;
+
+      galleryEl.innerHTML = items.map(item => {
+        const cover = item.coverPhoto
+          ? `<img class="thumb" src="${escapeHtml(item.coverPhoto)}" alt="${escapeHtml(item.title)}" loading="lazy" onerror="this.outerHTML='${makePlaceholder(item.title).replace(/'/g, "&apos;")}'">`
+          : makePlaceholder(item.title);
+
+        return `
+          <article class="card">
+            ${cover}
+            <div class="content">
+              <div class="meta">
+                <span class="pill">${escapeHtml(formatDate(item.date))}</span>
+                <span class="pill">${escapeHtml(item.location)}</span>
+              </div>
+              <h2 class="title">${escapeHtml(item.title)}</h2>
+              <p class="desc">${escapeHtml(item.description)}</p>
+              <div class="actions">
+                <a class="btn btn-primary" href="${escapeHtml(item.folderLink)}" target="_blank" rel="noopener noreferrer">View Photos</a>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function applySearch() {
+      const q = searchInputEl.value.trim().toLowerCase();
+
+      if (!q) {
+        render(allItems);
+        return;
+      }
+
+      const filtered = allItems.filter(item => {
+        return [
+          item.title,
+          item.location,
+          item.description,
+          item.date
+        ].join(" ").toLowerCase().includes(q);
+      });
+
+      render(filtered);
+    }
+
+    fetch(sheetURL)
+      .then(res => res.text())
+      .then(csv => {
+        const rows = csv.trim().split(/\r?\n/).slice(1);
+
+        const items = rows
+          .map(row => parseCSVLine(row))
+          .filter(cols => cols.length >= 8)
+          .map(cols => ({
+            id: cols[0] || "",
+            date: cols[1] || "",
+            title: cols[2] || "",
+            location: cols[3] || "",
+            description: cols[4] || "",
+            folderLink: normalizeDriveFolderLink(cols[5] || ""),
+            coverPhoto: cols[6] || "",
+            status: (cols[7] || "").trim().toLowerCase()
+          }))
+          .filter(item => item.status === "published" && item.title && item.folderLink)
+          .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        allItems = items;
+        render(allItems);
+      })
+      .catch(error => {
+        console.error(error);
+        galleryEl.hidden = true;
+        stateEl.hidden = false;
+        stateEl.className = "error";
+        stateEl.innerHTML = "Unable to load outreach activities. Please check the sheet publishing settings and CSV link.";
+        countEl.textContent = "Error";
+      });
+
+    searchInputEl.addEventListener("input", applySearch);
+  </script>
+</body>
+</html>
