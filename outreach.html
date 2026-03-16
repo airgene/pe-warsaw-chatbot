@@ -14,6 +14,8 @@
       --line: #dbe4f0;
       --bg: #f5f8fc;
       --card: #ffffff;
+      --soft: #f4f7fb;
+      --shadow: 0 14px 36px rgba(23, 48, 79, 0.08);
     }
 
     * { box-sizing: border-box; }
@@ -36,7 +38,7 @@
       border: 1px solid var(--line);
       border-radius: 22px;
       padding: 20px 22px;
-      box-shadow: 0 14px 36px rgba(23, 48, 79, 0.08);
+      box-shadow: var(--shadow);
       margin-bottom: 20px;
     }
 
@@ -112,17 +114,25 @@
       min-height: 100%;
     }
 
-    .thumb {
-      width: 100%;
-      aspect-ratio: 16 / 10;
+    .thumb-wrap {
+      position: relative;
       background: #eaf1fb;
-      object-fit: cover;
-      display: block;
+      cursor: pointer;
     }
 
+    .thumb,
     .thumb-fallback {
       width: 100%;
       aspect-ratio: 16 / 10;
+      display: block;
+    }
+
+    .thumb {
+      object-fit: cover;
+      background: #eaf1fb;
+    }
+
+    .thumb-fallback {
       background: linear-gradient(135deg, #edf4ff, #f8fbff);
       display: flex;
       align-items: center;
@@ -131,6 +141,22 @@
       font-weight: 700;
       letter-spacing: 0.03em;
       font-size: 14px;
+      text-align: center;
+      padding: 14px;
+    }
+
+    .thumb-badge {
+      position: absolute;
+      right: 12px;
+      bottom: 12px;
+      background: rgba(0, 56, 168, 0.9);
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      backdrop-filter: blur(4px);
     }
 
     .content {
@@ -150,7 +176,7 @@
     }
 
     .pill {
-      background: #f4f7fb;
+      background: var(--soft);
       border: 1px solid var(--line);
       padding: 5px 8px;
       border-radius: 999px;
@@ -175,6 +201,7 @@
       display: flex;
       gap: 10px;
       margin-top: 6px;
+      flex-wrap: wrap;
     }
 
     .btn {
@@ -198,6 +225,12 @@
       border-color: var(--blue);
     }
 
+    .btn-secondary {
+      background: white;
+      color: var(--blue);
+      border-color: var(--line);
+    }
+
     .empty, .loading, .error {
       background: white;
       border: 1px solid var(--line);
@@ -205,6 +238,136 @@
       padding: 22px;
       color: var(--muted);
       box-shadow: 0 10px 28px rgba(23, 48, 79, 0.06);
+    }
+
+    .viewer {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 18, 33, 0.82);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      z-index: 9999;
+    }
+
+    .viewer.open {
+      display: flex;
+    }
+
+    .viewer-dialog {
+      width: min(1000px, 100%);
+      max-height: 92vh;
+      background: #0d1b33;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 22px 60px rgba(0,0,0,0.35);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .viewer-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      color: white;
+    }
+
+    .viewer-title {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .viewer-sub {
+      font-size: 12px;
+      opacity: 0.8;
+      margin-top: 4px;
+    }
+
+    .viewer-close {
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.08);
+      color: white;
+      border-radius: 12px;
+      padding: 10px 12px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .viewer-stage {
+      position: relative;
+      background: #091224;
+      min-height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+    }
+
+    .viewer-image {
+      max-width: 100%;
+      max-height: 68vh;
+      object-fit: contain;
+      border-radius: 12px;
+      background: #091224;
+    }
+
+    .viewer-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.10);
+      color: white;
+      width: 46px;
+      height: 46px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 20px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .viewer-prev { left: 12px; }
+    .viewer-next { right: 12px; }
+
+    .viewer-bottom {
+      padding: 14px 16px 16px;
+      background: rgba(255,255,255,0.04);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      color: white;
+    }
+
+    .viewer-count {
+      font-size: 13px;
+      opacity: 0.88;
+    }
+
+    .viewer-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      border-radius: 12px;
+      padding: 11px 14px;
+      font-size: 14px;
+      font-weight: 700;
+      background: #ffffff;
+      color: var(--blue);
     }
 
     @media (max-width: 980px) {
@@ -224,6 +387,15 @@
 
       h1 {
         font-size: 26px;
+      }
+
+      .viewer-stage {
+        min-height: 280px;
+      }
+
+      .viewer-nav {
+        width: 40px;
+        height: 40px;
       }
     }
   </style>
@@ -251,6 +423,29 @@
     <section id="gallery" class="grid" hidden></section>
   </div>
 
+  <div id="viewer" class="viewer" aria-hidden="true">
+    <div class="viewer-dialog">
+      <div class="viewer-top">
+        <div>
+          <div id="viewerTitle" class="viewer-title">Outreach Activity</div>
+          <div id="viewerSub" class="viewer-sub"></div>
+        </div>
+        <button id="viewerClose" class="viewer-close" type="button">Close</button>
+      </div>
+
+      <div class="viewer-stage">
+        <button id="viewerPrev" class="viewer-nav viewer-prev" type="button" aria-label="Previous image">‹</button>
+        <img id="viewerImage" class="viewer-image" alt="Outreach image" />
+        <button id="viewerNext" class="viewer-nav viewer-next" type="button" aria-label="Next image">›</button>
+      </div>
+
+      <div class="viewer-bottom">
+        <div id="viewerCount" class="viewer-count">1 / 1</div>
+        <a id="viewerFolderLink" class="viewer-link" href="#" target="_blank" rel="noopener noreferrer">Open Album</a>
+      </div>
+    </div>
+  </div>
+
   <script>
     const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQadgQgapuFS50mqC_TBxuVOATJyJSgkwXX3HM7PWB4U_zrMSIT3Ko8_V74fth1KdsPd2ZRX-ORDZuZ/pub?output=csv";
 
@@ -259,7 +454,19 @@
     const searchInputEl = document.getElementById("searchInput");
     const countEl = document.getElementById("count");
 
+    const viewerEl = document.getElementById("viewer");
+    const viewerImageEl = document.getElementById("viewerImage");
+    const viewerTitleEl = document.getElementById("viewerTitle");
+    const viewerSubEl = document.getElementById("viewerSub");
+    const viewerCountEl = document.getElementById("viewerCount");
+    const viewerFolderLinkEl = document.getElementById("viewerFolderLink");
+    const viewerCloseEl = document.getElementById("viewerClose");
+    const viewerPrevEl = document.getElementById("viewerPrev");
+    const viewerNextEl = document.getElementById("viewerNext");
+
     let allItems = [];
+    let currentViewerIndex = 0;
+    let currentViewerItems = [];
 
     function parseCSVLine(line) {
       const result = [];
@@ -308,13 +515,28 @@
       });
     }
 
-    function normalizeDriveFolderLink(url) {
-      return String(url || "").trim();
-    }
+    function renderImageOrFallback(item, index) {
+      if (!item.coverPhoto) {
+        return `
+          <div class="thumb-wrap" data-view-index="${index}">
+            <div class="thumb-fallback">${escapeHtml(item.title || "Outreach Activity")}</div>
+            <div class="thumb-badge">Preview</div>
+          </div>
+        `;
+      }
 
-    function makePlaceholder(title) {
-      const safe = escapeHtml(title || "Outreach Activity");
-      return `<div class="thumb-fallback">${safe}</div>`;
+      return `
+        <div class="thumb-wrap" data-view-index="${index}">
+          <img
+            class="thumb"
+            src="${escapeHtml(item.coverPhoto)}"
+            alt="${escapeHtml(item.title)}"
+            loading="lazy"
+            onerror="this.style.display='none'; this.insertAdjacentHTML('afterend', '<div class=&quot;thumb-fallback&quot;>${escapeHtml(item.title || "Outreach Activity")}</div>');"
+          />
+          <div class="thumb-badge">Preview</div>
+        </div>
+      `;
     }
 
     function render(items) {
@@ -330,29 +552,75 @@
       stateEl.hidden = true;
       galleryEl.hidden = false;
       countEl.textContent = `${items.length} activit${items.length === 1 ? "y" : "ies"}`;
+      currentViewerItems = items;
 
-      galleryEl.innerHTML = items.map(item => {
-        const cover = item.coverPhoto
-          ? `<img class="thumb" src="${escapeHtml(item.coverPhoto)}" alt="${escapeHtml(item.title)}" loading="lazy" onerror="this.outerHTML='${makePlaceholder(item.title).replace(/'/g, "&apos;")}'">`
-          : makePlaceholder(item.title);
-
-        return `
-          <article class="card">
-            ${cover}
-            <div class="content">
-              <div class="meta">
-                <span class="pill">${escapeHtml(formatDate(item.date))}</span>
-                <span class="pill">${escapeHtml(item.location)}</span>
-              </div>
-              <h2 class="title">${escapeHtml(item.title)}</h2>
-              <p class="desc">${escapeHtml(item.description)}</p>
-              <div class="actions">
-                <a class="btn btn-primary" href="${escapeHtml(item.folderLink)}" target="_blank" rel="noopener noreferrer">View Photos</a>
-              </div>
+      galleryEl.innerHTML = items.map((item, index) => `
+        <article class="card">
+          ${renderImageOrFallback(item, index)}
+          <div class="content">
+            <div class="meta">
+              <span class="pill">${escapeHtml(formatDate(item.date))}</span>
+              <span class="pill">${escapeHtml(item.location)}</span>
             </div>
-          </article>
-        `;
-      }).join("");
+            <h2 class="title">${escapeHtml(item.title)}</h2>
+            <p class="desc">${escapeHtml(item.description)}</p>
+            <div class="actions">
+              <button class="btn btn-primary preview-btn" type="button" data-view-index="${index}">View Slideshow</button>
+              <a class="btn btn-secondary" href="${escapeHtml(item.folderLink)}" target="_blank" rel="noopener noreferrer">Open Album</a>
+            </div>
+          </div>
+        </article>
+      `).join("");
+
+      bindPreviewActions();
+    }
+
+    function bindPreviewActions() {
+      const triggers = document.querySelectorAll("[data-view-index]");
+      triggers.forEach(el => {
+        el.addEventListener("click", () => {
+          const index = Number(el.getAttribute("data-view-index"));
+          openViewer(index);
+        });
+      });
+    }
+
+    function updateViewer() {
+      const item = currentViewerItems[currentViewerIndex];
+      if (!item) return;
+
+      viewerImageEl.src = item.coverPhoto || "";
+      viewerImageEl.alt = item.title || "Outreach image";
+      viewerTitleEl.textContent = item.title || "Outreach Activity";
+      viewerSubEl.textContent = [formatDate(item.date), item.location].filter(Boolean).join(" • ");
+      viewerCountEl.textContent = `${currentViewerIndex + 1} / ${currentViewerItems.length}`;
+      viewerFolderLinkEl.href = item.folderLink || "#";
+    }
+
+    function openViewer(index) {
+      currentViewerIndex = index;
+      updateViewer();
+      viewerEl.classList.add("open");
+      viewerEl.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeViewer() {
+      viewerEl.classList.remove("open");
+      viewerEl.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    function nextViewer() {
+      if (!currentViewerItems.length) return;
+      currentViewerIndex = (currentViewerIndex + 1) % currentViewerItems.length;
+      updateViewer();
+    }
+
+    function prevViewer() {
+      if (!currentViewerItems.length) return;
+      currentViewerIndex = (currentViewerIndex - 1 + currentViewerItems.length) % currentViewerItems.length;
+      updateViewer();
     }
 
     function applySearch() {
@@ -380,7 +648,7 @@
       .then(csv => {
         const rows = csv.trim().split(/\r?\n/).slice(1);
 
-        const items = rows
+        allItems = rows
           .map(row => parseCSVLine(row))
           .filter(cols => cols.length >= 8)
           .map(cols => ({
@@ -389,14 +657,13 @@
             title: cols[2] || "",
             location: cols[3] || "",
             description: cols[4] || "",
-            folderLink: normalizeDriveFolderLink(cols[5] || ""),
+            folderLink: cols[5] || "",
             coverPhoto: cols[6] || "",
             status: (cols[7] || "").trim().toLowerCase()
           }))
-          .filter(item => item.status === "published" && item.title && item.folderLink)
+          .filter(item => item.status === "published")
           .sort((a, b) => new Date(b.date) - new Date(a.date));
 
-        allItems = items;
         render(allItems);
       })
       .catch(error => {
@@ -409,6 +676,23 @@
       });
 
     searchInputEl.addEventListener("input", applySearch);
+    viewerCloseEl.addEventListener("click", closeViewer);
+    viewerNextEl.addEventListener("click", nextViewer);
+    viewerPrevEl.addEventListener("click", prevViewer);
+
+    viewerEl.addEventListener("click", (event) => {
+      if (event.target === viewerEl) {
+        closeViewer();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (!viewerEl.classList.contains("open")) return;
+
+      if (event.key === "Escape") closeViewer();
+      if (event.key === "ArrowRight") nextViewer();
+      if (event.key === "ArrowLeft") prevViewer();
+    });
   </script>
 </body>
 </html>
