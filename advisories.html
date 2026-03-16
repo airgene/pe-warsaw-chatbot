@@ -1,59 +1,244 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Embassy Advisories</title>
   <style>
-    body{
-      font-family:Arial,sans-serif;
-      background:#f4f6f9;
-      margin:40px;
+    :root {
+      --blue: #0038a8;
+      --red: #ce1126;
+      --ink: #17304f;
+      --muted: #5f6f86;
+      --line: #dbe4f0;
+      --bg: #f5f8fc;
+      --card: #ffffff;
+      --soft: #f4f7fb;
     }
-    h1{
-      color:#003366;
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
     }
-    .advisory{
-      background:white;
-      border-left:5px solid #003366;
-      padding:20px;
-      margin-bottom:15px;
-      border-radius:6px;
-      box-shadow:0 2px 6px rgba(0,0,0,0.06);
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 20px 40px;
     }
-    .high{
-      border-left:5px solid #c62828;
+
+    .hero {
+      background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 20px 22px;
+      box-shadow: 0 14px 36px rgba(23, 48, 79, 0.08);
+      margin-bottom: 22px;
     }
-    .date{
-      color:#666;
-      font-size:14px;
-      margin-bottom:8px;
+
+    .flag {
+      height: 8px;
+      width: 220px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #0038a8 0 45%, white 45% 55%, #ce1126 55% 100%);
+      border: 1px solid #cfd9ea;
+      margin-bottom: 12px;
     }
-    .category{
-      font-size:12px;
-      background:#eee;
-      padding:3px 8px;
-      border-radius:4px;
-      margin-left:8px;
+
+    h1 {
+      margin: 0;
+      color: var(--blue);
+      font-size: 30px;
+      line-height: 1.1;
     }
-    a{
-      color:#003366;
-      font-weight:bold;
-      text-decoration:none;
+
+    .subtitle {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+      max-width: 760px;
     }
-    a:hover{
-      text-decoration:underline;
+
+    .section {
+      margin-top: 24px;
     }
-    .empty{
-      background:white;
-      padding:20px;
-      border-radius:6px;
-      color:#666;
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 14px;
+      color: var(--ink);
+      font-size: 22px;
+    }
+
+    .section-sub {
+      color: var(--muted);
+      font-size: 13px;
+      margin: -6px 0 14px;
+    }
+
+    .list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--blue);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 10px 28px rgba(23, 48, 79, 0.06);
+    }
+
+    .card.high {
+      border-left-color: var(--red);
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .pill {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 5px 8px;
+    }
+
+    .title {
+      margin: 0 0 8px;
+      font-size: 21px;
+      line-height: 1.25;
+      color: var(--ink);
+    }
+
+    .summary {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .event-box {
+      margin-top: 12px;
+      padding: 12px 14px;
+      background: #fbfdff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      font-size: 14px;
+      color: var(--ink);
+    }
+
+    .event-row {
+      margin-bottom: 6px;
+    }
+
+    .event-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      border-radius: 12px;
+      padding: 11px 14px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid var(--line);
+      background: white;
+      color: var(--ink);
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: white;
+      border-color: var(--blue);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--blue);
+      border-color: var(--line);
+    }
+
+    .empty {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 18px;
+      color: var(--muted);
+      box-shadow: 0 10px 28px rgba(23, 48, 79, 0.05);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        padding: 18px 14px 28px;
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+
+      .title {
+        font-size: 19px;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="page">
+    <section class="hero">
+      <div class="flag"></div>
+      <h1>Embassy Advisories</h1>
+      <div class="subtitle">
+        Latest embassy advisories, announcements, holiday notices, and upcoming outreach or consular events.
+      </div>
+    </section>
 
-  <h1>Embassy Advisories</h1>
-  <div id="advisories" class="empty">Loading advisories...</div>
+    <section class="section">
+      <h2 class="section-title">⚠ Urgent Advisories</h2>
+      <div class="section-sub">High-priority notices and urgent embassy updates.</div>
+      <div id="urgentList" class="list"></div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">📢 Announcements</h2>
+      <div class="section-sub">General embassy announcements, holiday notices, and service updates.</div>
+      <div id="announcementList" class="list"></div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">📅 Upcoming Events</h2>
+      <div class="section-sub">Outreach missions, seminars, and consular events with optional registration links.</div>
+      <div id="eventList" class="list"></div>
+    </section>
+  </div>
 
   <script>
     const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR_yTFobRLN8wW7BZhVMa6HKYCHg-AqXpYrw02Rux0BU4T6ZEAmN63Ntpd9MaGnq43qZvM8Km1LNaJH/pub?output=csv";
@@ -85,46 +270,170 @@
       return result.map(value => value.trim());
     }
 
+    function escapeHtml(str) {
+      return String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function formatDate(value) {
+      if (!value) return "";
+      const d = new Date(value);
+      if (Number.isNaN(d.getTime())) return value;
+      return d.toLocaleDateString("en-GB", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+    }
+
+    function isFutureOrToday(dateStr) {
+      if (!dateStr) return false;
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const eventDate = new Date(dateStr);
+      if (Number.isNaN(eventDate.getTime())) return false;
+
+      eventDate.setHours(0, 0, 0, 0);
+      return eventDate >= today;
+    }
+
+    function isEventCategory(category) {
+      const c = String(category || "").toLowerCase();
+      return ["outreach", "seminar", "consular mission", "event"].includes(c);
+    }
+
+    function renderCard(item, isEvent = false) {
+      const priorityClass = item.priority.toLowerCase() === "high" ? "high" : "";
+
+      const eventBox = isEvent ? `
+        <div class="event-box">
+          ${item.eventDate ? `<div class="event-row"><strong>Event Date:</strong> ${escapeHtml(formatDate(item.eventDate))}</div>` : ""}
+          ${item.location ? `<div class="event-row"><strong>Location:</strong> ${escapeHtml(item.location)}</div>` : ""}
+        </div>
+      ` : "";
+
+      const registrationButton = item.registrationLink
+        ? `<a href="${escapeHtml(item.registrationLink)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Register for this Event</a>`
+        : "";
+
+      const readButton = item.link
+        ? `<a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Read Full Advisory</a>`
+        : "";
+
+      return `
+        <article class="card ${priorityClass}">
+          <div class="meta">
+            ${item.date ? `<span class="pill">${escapeHtml(formatDate(item.date))}</span>` : ""}
+            ${item.category ? `<span class="pill">${escapeHtml(item.category)}</span>` : ""}
+            ${item.priority ? `<span class="pill">${escapeHtml(item.priority)}</span>` : ""}
+            ${item.author ? `<span class="pill">By ${escapeHtml(item.author)}</span>` : ""}
+          </div>
+
+          <h3 class="title">${escapeHtml(item.title)}</h3>
+          ${item.summary ? `<p class="summary">${escapeHtml(item.summary)}</p>` : ""}
+
+          ${eventBox}
+
+          <div class="actions">
+            ${readButton}
+            ${registrationButton}
+          </div>
+        </article>
+      `;
+    }
+
+    function renderSection(containerId, items, emptyMessage, isEvent = false) {
+      const el = document.getElementById(containerId);
+
+      if (!items.length) {
+        el.innerHTML = `<div class="empty">${escapeHtml(emptyMessage)}</div>`;
+        return;
+      }
+
+      el.innerHTML = items.map(item => renderCard(item, isEvent)).join("");
+    }
+
     fetch(sheetURL)
       .then(response => response.text())
       .then(data => {
         const rows = data.trim().split(/\r?\n/).slice(1);
-        let html = "";
 
-        rows.forEach(row => {
-          if (!row.trim()) return;
+        const items = rows
+          .filter(row => row.trim())
+          .map(row => parseCSVLine(row))
+          .filter(cols => cols.length >= 13)
+          .map(cols => ({
+            id: cols[0] || "",
+            date: cols[1] || "",
+            title: cols[2] || "",
+            category: cols[3] || "",
+            eventDate: cols[4] || "",
+            location: cols[5] || "",
+            summary: cols[6] || "",
+            link: cols[7] || "",
+            registrationLink: cols[8] || "",
+            priority: cols[9] || "",
+            status: (cols[10] || "").trim().toLowerCase(),
+            author: cols[11] || "",
+            lastUpdated: cols[12] || ""
+          }))
+          .filter(item => item.status === "published" && item.title);
 
-          const cols = parseCSVLine(row);
+        const urgentItems = items
+          .filter(item => item.priority.toLowerCase() === "high")
+          .sort((a, b) => new Date(b.date) - new Date(a.date));
 
-          const date = cols[1] || "";
-          const title = cols[2] || "";
-          const category = cols[3] || "";
-          const summary = cols[4] || "";
-          const link = cols[5] || "#";
-          const priority = (cols[6] || "").trim();
-          const status = (cols[7] || "").trim();
+        const announcementItems = items
+          .filter(item =>
+            !isEventCategory(item.category) &&
+            item.priority.toLowerCase() !== "high"
+          )
+          .sort((a, b) => new Date(b.date) - new Date(a.date));
 
-          if (status.toLowerCase() === "published") {
-            html += `
-              <div class="advisory ${priority.toLowerCase() === 'high' ? 'high' : ''}">
-                <div class="date">${date} <span class="category">${category}</span></div>
-                <h3>${title}</h3>
-                <p>${summary}</p>
-                <a href="${link}" target="_blank" rel="noopener noreferrer">Read full advisory</a>
-              </div>
-            `;
-          }
-        });
+        const eventItems = items
+          .filter(item =>
+            isEventCategory(item.category) &&
+            isFutureOrToday(item.eventDate)
+          )
+          .sort((a, b) => new Date(a.eventDate) - new Date(b.eventDate));
 
-        document.getElementById("advisories").innerHTML =
-          html || '<div class="empty">No published advisories found.</div>';
+        renderSection(
+          "urgentList",
+          urgentItems,
+          "No urgent advisories at this time."
+        );
+
+        renderSection(
+          "announcementList",
+          announcementItems,
+          "No published announcements found."
+        );
+
+        renderSection(
+          "eventList",
+          eventItems,
+          "No upcoming events found.",
+          true
+        );
       })
       .catch(error => {
         console.error("Error loading advisories:", error);
-        document.getElementById("advisories").innerHTML =
-          '<div class="empty">Unable to load advisories. Please check the sheet link and publishing settings.</div>';
+
+        document.getElementById("urgentList").innerHTML =
+          '<div class="empty">Unable to load urgent advisories.</div>';
+
+        document.getElementById("announcementList").innerHTML =
+          '<div class="empty">Unable to load announcements.</div>';
+
+        document.getElementById("eventList").innerHTML =
+          '<div class="empty">Unable to load upcoming events.</div>';
       });
   </script>
-
 </body>
 </html>
